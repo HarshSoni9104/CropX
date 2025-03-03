@@ -1,0 +1,108 @@
+USER
+
+
+const userName = "Harsh"
+const userAge = 34
+const me = (a) => {
+    console.log("hello harsh",a);
+    
+}
+
+// module.exports = userName
+// module.exports = userAge
+module.exports = {userAge , userName,me}
+
+
+
+APP 
+
+const user = require('./user');
+
+// require('./user')
+console.log(user.userAge);
+// console.log(userAge);
+// console.log(user.me())
+user.me(100)
+
+
+app.get("/test",(req ,res) => {
+        console.log("test api called");
+        
+        res.send("callled")
+})      
+
+app.get("/users" , (req, res) => {
+        res.json({
+            message:"user api called..",
+            data:["ram" , "shyam" , "seeta"]
+        })
+})
+
+app.get("/employees" , (req ,res) => {
+    console.log("API CALLED");
+    res.json({
+        message:"Employee api called...",
+        data:[
+            {
+                id: 1,
+                name: "harsh",
+                salary: 10000,
+                email: "harsh@gmail.com",
+              },
+              {
+                id: 2,
+                name: "om",
+                salary: 20000,
+                email: "om@gmail.com",
+              },
+              {
+                id: 3,
+                name: "darshan",
+                salary: 5000,
+                email: "darshan@gmail.com",
+              },
+              {
+                id: 4,
+                name: "dhruv",
+                salary: 500000,
+                email: "dhruv@gmail.com",
+              },
+              {
+                id: 5,
+                name: "bhavya",
+                salary: 1000,
+                email: "bhavya@gmail.com",
+              },
+              {
+                id: 6,
+                name: "mitul",
+                salary: 2000,
+                email: "mitul@gmail.com",
+              },
+              {
+                id: 7,
+                name: "soni",
+                salary: 8000,
+                email: "soni@gmail.com",
+              },
+              {
+                id: 8,
+                name: "ram",
+                salary: 70000,
+                email: "ram@gmail.com",
+              },
+              {
+                id: 9,
+                name: "shyam",
+                salary: 3000,
+                email: "shyam@gmail.com",
+              },
+              {
+                id: 10,
+                name: "lisha",
+                salary: 8000,
+                email: "lisha@gmail.com",
+              },
+        ]
+    })
+})
