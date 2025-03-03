@@ -18,14 +18,15 @@ export const Login = () => {
             // const res = await axios.post("http://localhost:3000/user/login", data);
 
             if(res.status === 200){
+                toast.success("Login Successful! 🎉")
                 localStorage.setItem("Id" , res.data.data._id)
                 localStorage.setItem("role",res.data.data.roleId.name)
-                console.log("API Response:", res.data);
-                console.log("RoleId:", res.data.data.roleId);
+                localStorage.setItem("des" , res.data.data.roleId.description)
+                // console.log("API Response:", res.data);
+                // console.log("RoleId:", res.data.data.roleId);
 
-                toast.success("Login Successful! 🎉")
 
-                if(res.data.data.roleId?.name === "USER"){
+                if(res.data.data.roleId?.name === "harsh"){
                     navigate("/user");  
                 }
 

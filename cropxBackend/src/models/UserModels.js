@@ -11,7 +11,8 @@ const UserSchema  = new Schema({
         type: Number
     },
     status: {
-        type: Boolean
+        type: Boolean,
+        default:true
     },
     roleId:{
         type:Schema.Types.ObjectId,
@@ -28,7 +29,7 @@ const UserSchema  = new Schema({
         type:Number,
         unique:true
     },
-    city:{
+    acity:{
         type:String
     }
 

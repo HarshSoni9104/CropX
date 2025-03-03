@@ -20,7 +20,7 @@ export const DemoSidebar = () => {
               className="brand-image opacity-75 shadow"
             />
             
-            <span className="brand-text f w-light">AdminLTE 4</span>
+            {/* <span className="brand-text f w-light">AdminLTE 4</span> */}
             
           </a>
           

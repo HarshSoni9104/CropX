@@ -42,8 +42,7 @@ import { toast, ToastContainer } from 'react-toastify';
                 value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$/,
                 message: 'Password must be at least 5 characters long and include uppercase, lowercase, a number, and a special character'
             }
-        }
-        ,
+        },
         confirmPassword: {
             required: { value: true, message: 'Confirm your password' },
             validate: (value) =>
@@ -53,12 +52,12 @@ import { toast, ToastContainer } from 'react-toastify';
             required: { value: true, message: "Enter your contact number" },
             pattern: { value: /^[6-9]{1}[0-9]{9}$/, message: "Enter valid contact number" }
         },
-        cityValidator: { required: { value: true, message: 'City is required' } }
+        cityValidator: { 
+            required: { value: true, message: 'City is required' } 
+        }
     }
 
     return (
-        <div>
-        <ToastContainer/>
         <div style={{
             backgroundColor: '#e6e6fa',
             minHeight: '100vh',
@@ -69,8 +68,9 @@ import { toast, ToastContainer } from 'react-toastify';
             margin: 0,
             padding: '20px'
         }}>
+             <ToastContainer/>
             <div className="shadow rounded overflow-hidden d-flex flex-column flex-md-row"
-                style={{ width: '90%', maxWidth: '900px', backgroundColor: '#fff' }}>
+                style={{ width: '90%', maxWidth: '900px', backgroundColor: '#fff', minHeight:"600px" }}>
                 
                 {/* Left Side - Sign Up Form */}
                 <div className="p-5 w-100 w-md-50">
@@ -123,6 +123,6 @@ import { toast, ToastContainer } from 'react-toastify';
                 </div>
             </div>
         </div>
-        </div>
+        
     )
 }

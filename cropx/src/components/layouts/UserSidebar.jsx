@@ -14,13 +14,13 @@ export const UserSidebar = () => {
 
                     <a href="./index.html" className="brand-link">
 
-                        <img
+                        {/* <img
                             src="../../dist/assets/img/AdminLTELogo.png"
                             alt="AdminLTE Logo"
                             className="brand-image opacity-75 shadow"
-                        />
+                        /> */}
 
-                        <span className="brand-text fw-light">AdminLTE 4</span>
+                        <span className="brand-text fw-light">Cropx</span>
 
                     </a>
 
