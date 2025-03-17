@@ -29,7 +29,7 @@ const ForgotPassword = () => {
     };
 
     return (
-        <div style={{
+        <div style={{   
             backgroundColor: '#e6e6fa',
             minHeight: '100vh',
             width: '100vw',

@@ -5,29 +5,20 @@ import { DemoNavbar } from './DemoNavbar'
 export const DemoSidebar = () => {
   return (
     <>
-    <DemoNavbar></DemoNavbar>
-    <aside
-        className="app-sidebar bg-body-secondary shadow"
-        data-bs-theme="dark"
-      >
+      <DemoNavbar />
+      <aside className="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
         <div className="sidebar-brand">
-          
           <a href="./index.html" className="brand-link">
-            
             <img
               src="../../dist/assets/img/AdminLTELogo.png"
               alt="AdminLTE Logo"
               className="brand-image opacity-75 shadow"
             />
-            
-            {/* <span className="brand-text f w-light">AdminLTE 4</span> */}
-            
           </a>
-          
         </div>
 
         <div
-          className=""
+          className="sidebar-content"
           data-overlayscrollbars-viewport="scrollbarHidden overflowXHidden overflowYScroll"
           tabIndex={-1}
           style={{
@@ -42,13 +33,7 @@ export const DemoSidebar = () => {
           }}
         >
           <nav className="mt-2">
-            
-            <ul
-              className="nav sidebar-menu flex-column"
-              data-lte-toggle="treeview"
-              role="menu"
-              data-accordion="false"
-            >
+            <ul className="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
               <li className="nav-item menu-open">
                 <a href="#" className="nav-link active">
                   <i className="nav-icon bi bi-speedometer" />
@@ -102,7 +87,7 @@ export const DemoSidebar = () => {
                   <li className="nav-item">
                     <a href="./widgets/info-box.html" className="nav-link">
                       <i className="nav-icon bi bi-circle" />
-                      <p>info Box</p>
+                      <p>Info Box</p>
                     </a>
                   </li>
                   <li className="nav-item">
@@ -114,12 +99,11 @@ export const DemoSidebar = () => {
                 </ul>
               </li>
             </ul>
-            
           </nav>
         </div>
       </aside>
-      <main class="app-main">
-        <Outlet></Outlet>
+      <main className="app-main">
+        <Outlet />
       </main>
     </>
   )

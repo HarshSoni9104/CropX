@@ -13,17 +13,23 @@ import { toast, ToastContainer } from 'react-toastify';
         //const res = await axios.post("http://localhost:3000/user")
 
          //before sending data.. role bind
-
-            data.roleId = "67be92416d57d5b55ad7a909"
+        try{
+            data.roleId = "67c68ccb957e608ef47a4203"
             const res = await axios.post("/user",data)
 
             if(res.status === 201){
                 toast.success("User created successfully! 🎉")
                 navigate('/login')
-
-            }else{
-                toast.error("Something went wrong! ❌")
             }
+
+            }catch (error) {
+                if (error.response && error.response.data) {
+                    toast.error(error.response.data.message || "Something went wrong! ❌");
+                } else {
+                    toast.error("Network error or server is down.");
+                }
+            }
+        
        
     }
 

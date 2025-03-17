@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { replace, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import './Demo.css'; // Import CSS file
 
 export const Demo = () => {
@@ -13,6 +13,9 @@ export const Demo = () => {
     isActive: true,
   });
 
+  const navigate =useNavigate()
+
+
   const handleChange = (e) => {
    
     const { name, value, type, checked } = e.target;
@@ -22,7 +25,6 @@ export const Demo = () => {
     }));
   };
 
-  const navigate =useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault(); // ⛔ Prevent default form submission
@@ -37,9 +39,8 @@ export const Demo = () => {
       address: "",
       isActive: true
     })
+    navigate('/DemoUser/profile' , {replace:true})
   };
-
-  navigate('/DemoUser/profile' , {replace:true})
 
   return (
     <div className="form-container">

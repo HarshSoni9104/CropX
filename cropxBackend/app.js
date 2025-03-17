@@ -12,12 +12,20 @@ app.use(roleRoutes)
 const userRoutes = require("./src/routes/UserRoutes")
 app.use(userRoutes)
 
+const productRoutes =require('./src/routes/ProductRoutes')
+app.use('/product',productRoutes)
+
+const categoryRoutes = require('./src/routes/CategoryRoutes')
+app.use('/category' , categoryRoutes)
+
+const subcategoryRoutes = require('./src/routes/SubcategoryRoutes')
+app.use('/subcategory',subcategoryRoutes)
+
 app.use((req, res, next) => {
   console.log(`➡️ Incoming Request: ${req.method} ${req.url}`);
   console.log("📩 Request Body:", req.body);
   next();
 });
-
 
 mongoose.connect("mongodb://127.0.0.1:27017/Crop").then(() => {
   console.log("database connected");

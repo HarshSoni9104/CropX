@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import { AgencyNavbar } from './AgencyNavbar'
+import { AgencyNavbar } from './AdminNavbar'
 
 export const AgencySidebar = () => {
   return (

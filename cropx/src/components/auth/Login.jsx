@@ -20,13 +20,17 @@ export const Login = () => {
             if(res.status === 200){
                 toast.success("Login Successful! 🎉")
                 localStorage.setItem("Id" , res.data.data._id)
-                localStorage.setItem("role",res.data.data.roleId.name)
-                localStorage.setItem("des" , res.data.data.roleId.description)
+                if (res.data.data.roleId && res.data.data.roleId.name) {
+                    localStorage.setItem("role", res.data.data.roleId.name);
+                } else {
+                    console.warn("roleId is missing from API response.");
+                }                
+                // localStorage.setItem("des" , res.data.data.roleId.description)
                 // console.log("API Response:", res.data);
                 // console.log("RoleId:", res.data.data.roleId);
 
 
-                if(res.data.data.roleId?.name === "harsh"){
+                if(res.data.data.roleId?.name === "Farmer"){
                     navigate("/user");  
                 }
 

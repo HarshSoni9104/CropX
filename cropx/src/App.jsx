@@ -1,55 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-// import "bootstrap/dist/css/bootstrap.min.css";
+  import { useEffect, useState } from 'react'
 
-import { UserSidebar } from './components/layouts/UserSidebar'
-// import './App.css'
-import "./assets/adminlte.css"
-import "./assets/adminlte.min.css"
-import { Route, Routes } from 'react-router-dom'
-import { UserProfile } from './components/user/UserProfile'
-// import {Login} from './components/common/login/Login'
 
-import {Signup} from './components/common/signup/Signup'
-import { Login } from './components/common/Login/Login'
-import ForgotPassword from './components/common/forgetPassword/ForgetPassword'
+  // import { UserSidebar } from './components/layouts/UserSidebar'
+  import "./assets/adminlte.css"
+  import "./assets/adminlte.min.css"
+  import { Route, Routes, useLocation } from 'react-router-dom'
+  // import { DemoSidebar } from './components/admin/DemoSidebar'
+  // import { Demo } from './components/admin/Demo'
+  import axios from 'axios'
+  import { AddProduct } from './components/products/AddProduct'
+  import {MainLayout} from "./components/layouts/MainLayout"
+  import {LandingPage} from './components/landing/LandingPage'
+  import {Login} from "./components/auth/Login"
+  import {Signup} from "./components/auth/Signup"
+import { UserLayout } from './components/layouts/UserLayout'
+  
 
-import { DemoSidebar } from './components/admin/DemoSidebar'
-import { Demo } from './components/admin/Demo'
-import axios from 'axios'
+  function App() {
 
-function App() {
+    axios.defaults.baseURL = "http://localhost:3000"
+    const location = useLocation();
 
-  axios.defaults.baseURL = "http://localhost:3000"
 
-  return (
-        <div className='layout-fixed sidebar-expand-lg bg-body-tertiary app-loaded sidebar-open"'>
-          <div className='app-wrapper'>
-          <Routes>
-        {/* Auth Routes */}
-        <Route path="/login" element={<Login/>} />
+    // useEffect(() => {
+    //   if (location.pathname === "/login" || location.pathname === "/signup") {
+    //     document.body.className = ""; // Remove the unwanted class for login and signup
+    //   } else {
+    //     document.body.className ="layout-fixed sidebar-expand-lg bg-body-tertiary sidebar-open app-loaded";
+    //   }
+    // }, [location.pathname]);
+    useEffect(() => {
+      if (location.pathname === "/login" || location.pathname === "/signup") {
+        document.body.className = "bg-light";
+      } else if (location.pathname === "/") {
+        document.body.className = "";
+      } else {
+        document.body.className = "layout-fixed sidebar-expand-lg bg-body-tertiary sidebar-open app-loaded";
+      }
+    }, [location.pathname]);
+  
+    return (
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/forgot-password" element={<ForgotPassword/>} />
-      
-        {/* User Routes (nested inside UserSidebar) */}
-        <Route path="/user" element={<UserSidebar />}>
-          <Route path="profile" element={<UserProfile />} />
+        
+        <Route path='/user' element={<UserLayout/>}>
+        <Route path='add-product' element={<AddProduct/>}></Route>
         </Route>
 
-          <Route path='/DemoUser' element={<DemoSidebar />} >
-            <Route path='profile' element={<Demo/>}></Route>
-          </Route>
-
-        
-          
-        {/* 404 Page */}
         <Route path="*" element={<h1>404 - Page Not Found</h1>} />
       </Routes>
-          </div>
-        </div>
-     
-  )
-}
+    );
+  
+  }
 
-export default App
+  export default App
