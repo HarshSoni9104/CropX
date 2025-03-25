@@ -29,9 +29,10 @@ const UserSchema  = new Schema({
         type:Number,
         unique:true
     },
-    acity:{
+    city:{
         type:String
-    }
+    },
+    
 
 })
 module.exports = mongoose.model("users",UserSchema)

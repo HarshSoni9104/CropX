@@ -1,36 +1,49 @@
 import axios from 'axios';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
-  export const Signup = () => {
+export const Signup = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-
     const navigate = useNavigate()
-    const submitHandler = async(data) => {
-         console.log(data)
+    const [roles, setRoles] = useState([]);
+
+    useEffect(() => {
+        const fetchRoles = async () => {
+            try {
+                const res = await axios.get("/roles")
+                console.log("Roles API Response:", res.data); // Debugging
+
+                setRoles(res.data.data)
+            } catch (error) {
+                toast.error("Failed to fetch roles")
+            }
+        }
+        fetchRoles()
+    }, [])
+
+    const submitHandler = async (data) => {
+        console.log(data)
         //const res = await axios.post("http://localhost:3000/user")
 
-         //before sending data.. role bind
-        try{
-            data.roleId = "67c68ccb957e608ef47a4203"
-            const res = await axios.post("/user",data)
+        //before sending data.. role bind
+        try {
+            // data.roleId = "67c68ccb957e608ef47a4203"
+            const res = await axios.post("/user", data)
 
-            if(res.status === 201){
+            if (res.status === 201) {
                 toast.success("User created successfully! 🎉")
                 navigate('/login')
             }
 
-            }catch (error) {
-                if (error.response && error.response.data) {
-                    toast.error(error.response.data.message || "Something went wrong! ❌");
-                } else {
-                    toast.error("Network error or server is down.");
-                }
+        } catch (error) {
+            if (error.response && error.response.data) {
+                toast.error(error.response.data.message || "Something went wrong! ❌");
+            } else {
+                toast.error("Network error or server is down.");
             }
-        
-       
+        }
     }
 
     const validationSchema = {
@@ -58,8 +71,8 @@ import { toast, ToastContainer } from 'react-toastify';
             required: { value: true, message: "Enter your contact number" },
             pattern: { value: /^[6-9]{1}[0-9]{9}$/, message: "Enter valid contact number" }
         },
-        cityValidator: { 
-            required: { value: true, message: 'City is required' } 
+        cityValidator: {
+            required: { value: true, message: 'City is required' }
         }
     }
 
@@ -74,16 +87,16 @@ import { toast, ToastContainer } from 'react-toastify';
             margin: 0,
             padding: '20px'
         }}>
-             <ToastContainer/>
+            <ToastContainer />
             <div className="shadow rounded overflow-hidden d-flex flex-column flex-md-row"
-                style={{ width: '90%', maxWidth: '900px', backgroundColor: '#fff', minHeight:"600px" }}>
-                
+                style={{ width: '90%', maxWidth: '900px', backgroundColor: '#fff', minHeight: "600px" }}>
+
                 {/* Left Side - Sign Up Form */}
                 <div className="p-5 w-100 w-md-50">
                     <h3 className="mb-4 text-center text-md-start">Sign Up</h3>
                     <form onSubmit={handleSubmit(submitHandler)} method="POST">
                         {/* {console.log(errors)} */}
-                        
+
                         <div className="mb-4">
                             <label className="form-label">Full Name</label>
                             <input type="text" className="form-control" placeholder="Full Name" {...register('fullname', validationSchema.nameValidator)} />
@@ -114,6 +127,17 @@ import { toast, ToastContainer } from 'react-toastify';
                             <input type="text" className="form-control" placeholder="Enter your city" {...register('city', validationSchema.cityValidator)} />
                             <p className="text-danger">{errors.city?.message}</p>
                         </div>
+                        <div className="mb-4">
+                            <label className="form-label">Select Role</label>
+                            <select className="form-control" {...register('roleId', { required: "Role is required" })}>
+                                <option value="">-- Select Role --</option>
+                                {roles.map(role => (
+                                    <option key={role._id} value={role._id}>{role.name}</option>
+                                ))}
+                            </select>
+                            <p className="text-danger">{errors.roleId?.message}</p>
+                        </div>
+
                         <button className="btn btn-danger w-100">Sign Up</button>
                     </form>
                 </div>
@@ -129,6 +153,6 @@ import { toast, ToastContainer } from 'react-toastify';
                 </div>
             </div>
         </div>
-        
+
     )
 }

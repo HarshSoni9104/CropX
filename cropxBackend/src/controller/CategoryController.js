@@ -14,7 +14,7 @@ const addCategory = async(req , res) => {
 }
 
 const getAllCategories = async(req, res) => {
-    try{
+    try{    
         const getAllCategoryData = await categoryModel.find()
         res.status(200).json({
             message:"All Categories fetched successfully",

@@ -21,6 +21,9 @@ app.use('/category' , categoryRoutes)
 const subcategoryRoutes = require('./src/routes/SubcategoryRoutes')
 app.use('/subcategory',subcategoryRoutes)
 
+const orderRoutes = require('./src/routes/OrderRoutes')
+app.use('/order',orderRoutes)
+
 app.use((req, res, next) => {
   console.log(`➡️ Incoming Request: ${req.method} ${req.url}`);
   console.log("📩 Request Body:", req.body);

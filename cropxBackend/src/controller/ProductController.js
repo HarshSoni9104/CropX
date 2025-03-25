@@ -23,10 +23,10 @@ const addProduct = async (req, res) => {
     try {
         console.log("Request received:", req.body);
 
-        const { name, description, price_per_unit, quantity_available, categoryId, subcategoryId, farmerId } = req.body;
+        const { name, description, price_per_unit, quantity_available, categoryId, subcategoryId, farmerId , unit } = req.body;
 
         // ✅ Check if all required fields are present
-        if (!name || !description || !price_per_unit || !quantity_available || !categoryId || !farmerId) {
+        if (!name || !description || !price_per_unit || !quantity_available || !categoryId || !subcategoryId || !farmerId || !unit) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -46,7 +46,9 @@ const addProduct = async (req, res) => {
             quantity_available,
             farmerId,
             categoryId,
-            subcategoryId
+            subcategoryId,
+            unit
+
         });
 
         res.status(201).json({
@@ -114,31 +116,51 @@ const getProductById = async (req, res) => {
 const addProductWithFile = async (req, res) => {
     upload(req, res, async (err) => {
       if (err) {
-        console.log(err);
-        res.status(500).json({
-          message: err.message,
+        console.error("Multer Error:", err);
+        return res.status(500).json({ message: err.message });
+      }
+  
+      console.log("Received File:", req.file);
+      console.log("Received Body:", req.body);
+  
+      if (!req.file) {
+        return res.status(400).json({ message: "Image is required" });
+      }
+  
+      try {
+        // Upload to Cloudinary
+        const cloudinaryResponse = await cloudinaryUtil.uploadFileToCloudinary(req.file);
+        console.log("Cloudinary Response:", cloudinaryResponse);
+  
+        // Check if all required fields exist
+        const { name, description, price_per_unit, quantity_available, categoryId, subcategoryId, farmerId, unit } = req.body;
+        if (!name || !description || !price_per_unit || !quantity_available || !categoryId || !subcategoryId || !farmerId || !unit) {
+          return res.status(400).json({ message: "All fields are required" });
+        }
+  
+        // Save product in DB
+        const savedProduct = await productModel.create({
+          name,
+          description,
+          price_per_unit,
+          quantity_available,
+          farmerId,
+          categoryId,
+          subcategoryId,
+          unit,
+          productUrl: cloudinaryResponse.secure_url,
         });
-      } else {
-        // database data store
-        //cloundinary
   
-        const cloundinaryResponse = await cloudinaryUtil.uploadFileToCloudinary(
-          req.file
-        );
-        console.log(cloundinaryResponse);
-        console.log(req.body);
+        res.status(201).json({ message: "Product saved successfully", data: savedProduct });
   
-        //store data in database
-        req.body.productUrl = cloundinaryResponse.secure_url;
-        const savedProduct = await productModel.create(req.body);
-  
-        res.status(200).json({
-          message: "Product saved successfully",
-          data: savedProduct,
-        });
+      } catch (error) {
+        console.error("Error saving product:", error);
+        res.status(500).json({ message: error.message });
       }
     });
   };
+  
+  
   
   
 

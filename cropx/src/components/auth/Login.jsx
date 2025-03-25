@@ -13,26 +13,51 @@ export const Login = () => {
     const submitHandler = async(data) => {
         
             // const res = await axios.post("/login", data);
+            localStorage.removeItem("role");
+            localStorage.removeItem("Id");
             const res = await axios.post("/user/login", data);
             console.log("Login Data:", data);
             // const res = await axios.post("http://localhost:3000/user/login", data);
 
             if(res.status === 200){
                 toast.success("Login Successful! 🎉")
-                localStorage.setItem("Id" , res.data.data._id)
-                if (res.data.data.roleId && res.data.data.roleId.name) {
-                    localStorage.setItem("role", res.data.data.roleId.name);
+                const user = res.data.data
+                localStorage.setItem("Id" , user._id)
+                if (user.roleId && user.roleId.name) {
+                    localStorage.setItem("role", user.roleId.name);
                 } else {
                     console.warn("roleId is missing from API response.");
+                    
                 }                
                 // localStorage.setItem("des" , res.data.data.roleId.description)
                 // console.log("API Response:", res.data);
                 // console.log("RoleId:", res.data.data.roleId);
-
-
-                if(res.data.data.roleId?.name === "Farmer"){
-                    navigate("/user");  
+                switch (user.roleId.name) {
+                    case "Admin":
+                        navigate("/admin-dashboard");
+                        break;
+                    case "Farmer":
+                        navigate("/user");
+                        break;
+                    case "Wholesaler":
+                        navigate("/wholesaler-dashboard");
+                        break;
+                    case "Retailer":
+                        navigate("/retailer-dashboard");
+                        break;
+                    case "Transporter":
+                        navigate("/transporter-dashboard");
+                        break;
+                    case "Buyers":
+                        navigate("/buyer-dashboard");
+                        break;
+                    default:
+                        navigate("/");
                 }
+
+                // if(res.data.data.roleId?.name === "Farmer"){
+                //     navigate("/user");  
+                // }
 
             }else{
                 toast.error("Invalid credentials! ❌")

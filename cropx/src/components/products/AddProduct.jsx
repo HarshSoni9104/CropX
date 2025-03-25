@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
+
 export const AddProduct = () => {
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([]);
@@ -43,6 +44,7 @@ export const AddProduct = () => {
         formData.append("name", data.name);
         formData.append("description", data.description);
         formData.append("price_per_unit", data.price_per_unit);
+        formData.append("unit" , data.unit)
         formData.append("quantity_available", data.quantity_available);
         formData.append("categoryId", data.categoryId);
         formData.append("subcategoryId", data.subcategoryId);
@@ -75,6 +77,16 @@ export const AddProduct = () => {
                             <div className="mb-3">
                                 <label className="form-label fw-semibold">Price per Unit</label>
                                 <input type="number" className="form-control" {...register("price_per_unit")} />
+                            </div>
+                            <div>
+                                <label className="form-label fw-semibold">Unit</label>
+                                <select {...register("unit")}>
+                                    <option value="">Select Unit</option>
+                                    <option value="kg">Kg</option>
+                                    <option value="dozen">Dozen</option>
+                                    <option value="liters">Liters</option>
+                                    <option value="pieces">Pieces</option>
+                                </select>
                             </div>
                             <div className="mb-3">
                                 <label className="form-label fw-semibold">Quantity Available</label>

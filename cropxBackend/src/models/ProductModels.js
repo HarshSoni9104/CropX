@@ -15,6 +15,11 @@ const productSchema = new Schema({
         type:Number,
         required: true
     },
+    unit:{
+        type:String,
+        enum:["kg" , "liters" , "dozen" , "pieces"],
+        required:true
+    },
     quantity_available:{
         type:Number,
         required: true
@@ -38,8 +43,7 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
-},  {
-        timestamps:true
-    })
+    },  
+    { timestamps:true})
     
 module.exports = mongoose.model("product" , productSchema)
