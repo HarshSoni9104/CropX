@@ -23,6 +23,8 @@ import { TransporterDashboard } from "./components/dashboards/TransporterDashboa
 import { BuyerDashboard } from "./components/dashboards/BuyerDashboard";
 import { FarmerDashBoard } from './components/dashboards/FarmerDashboard'
 import { DashboardLayout } from './components/layouts/DashboardLayout'
+import { UpdateProduct } from './components/products/UpdateProduct'
+import { ViewProduct } from './components/products/ViewProduct'
 
 function App() {
 
@@ -58,7 +60,9 @@ function App() {
         </Route> */}
       <Route path="/user" element={<ProtectedRoute component={DashboardLayout} role="Farmer" />}>
         <Route index element={<FarmerDashBoard />} />  {/* ✅ Default route when visiting /user */}
-        <Route path="add-product" element={<AddProduct />} />
+        <Route path="add-product" element={<AddProduct/>} />
+        <Route path="viewproduct" element={<ViewProduct/>}/>
+        <Route path='updateproduct/:id' element={<UpdateProduct/>}></Route>
       </Route>
 
       <Route path="/admin-dashboard" element={<ProtectedRoute component={DashboardLayout} role="Admin" />}>

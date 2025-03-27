@@ -14,7 +14,7 @@ export const Login = () => {
         
             // const res = await axios.post("/login", data);
             localStorage.removeItem("role");
-            localStorage.removeItem("Id");
+            localStorage.removeItem("id");
             const res = await axios.post("/user/login", data);
             console.log("Login Data:", data);
             // const res = await axios.post("http://localhost:3000/user/login", data);
@@ -22,7 +22,7 @@ export const Login = () => {
             if(res.status === 200){
                 toast.success("Login Successful! 🎉")
                 const user = res.data.data
-                localStorage.setItem("Id" , user._id)
+                localStorage.setItem("id" , user._id)
                 if (user.roleId && user.roleId.name) {
                     localStorage.setItem("role", user.roleId.name);
                 } else {

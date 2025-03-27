@@ -1,74 +1,100 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export const UserSidebar = () => {
-  const [dashboardOpen, setDashboardOpen] = useState(false);
+export const UserSidebar = ({ isCollapsed, toggleSidebar }) => {
+  const [dashboardOpen, setDashboardOpen] = useState(true);
   const location = useLocation();
-  const userRole = localStorage.getItem("role") || "User"; // Get the role from localStorage
+  const userRole = localStorage.getItem("role") || "User";
 
   return (
-    <aside className="d-flex flex-column bg-white shadow-sm border-end vh-100" style={{ width: "250px" }}>
+    <div 
+      className="d-flex flex-column bg-white shadow-lg vh-100"
+      style={{ 
+        width: isCollapsed ? "80px" : "280px",
+        transition: "all 0.3s ease",
+        position: "sticky",
+        top: 0
+      }}
+    >
       <div className="p-3">
-        {/* Logo Section */}
-        <h4 className="text-danger fw-bold mb-4">CropX</h4>
+        <div className="d-flex align-items-center justify-content-between mb-4">
+          <h4 
+            className="text-danger fw-bold mb-0" 
+            style={{ opacity: isCollapsed ? 0 : 1, transition: "opacity 0.2s" }}
+          >
+            CropX
+          </h4>
+          <button 
+            onClick={toggleSidebar}
+            className="btn btn-link text-dark p-0"
+            style={{ minWidth: "30px" }}
+          >
+            <i className={`bi bi-chevron-${isCollapsed ? 'right' : 'left'}`}></i>
+          </button>
+        </div>
 
-        <nav className="nav flex-column">
-          {/* Dashboard Section */}
-          <div className="mb-2">
+        <nav className="nav flex-column gap-2">
+          <div className="mb-3">
             <button
-              className="nav-link text-muted d-flex justify-content-between align-items-center bg-transparent border-0 w-100 py-2"
+              className="nav-link text-dark d-flex justify-content-between align-items-center w-100 p-3 rounded-3"
               onClick={() => setDashboardOpen(!dashboardOpen)}
-              style={{ cursor: "pointer" }}
+              style={{ 
+                background: location.pathname.includes("dashboard") ? "#f8f9fa" : "transparent",
+                transition: "all 0.2s ease"
+              }}
             >
-              <span className="d-flex align-items-center">
-                <i className="bi bi-speedometer me-2"></i> Dashboards
+              <span className="d-flex align-items-center gap-3">
+                <i className="bi bi-speedometer2 fs-5"></i>
+                <span style={{ opacity: isCollapsed ? 0 : 1, transition: "opacity 0.2s" }}>
+                  Dashboards
+                </span>
               </span>
-              <i className={`bi ${dashboardOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
+              {!isCollapsed && (
+                <i className={`bi ${dashboardOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
+              )}
             </button>
 
-            {/* Collapsible Dashboard Links (Role-Based) */}
-            {dashboardOpen && (
-              <div className="ps-3">
-                {userRole === "Admin" && (
-                  <Link to="/admin-dashboard" className={`nav-link py-1 ${location.pathname === "/admin-dashboard" ? "text-primary fw-bold" : "text-muted"}`}>
-                    Admin Dashboard
-                  </Link>
-                )}
+            {dashboardOpen && !isCollapsed && (
+              <div className="ps-4 ms-2 border-start">
                 {userRole === "Farmer" && (
                   <>
-                    <Link to="/user" className={`nav-link py-1 ${location.pathname === "/user" ? "text-primary fw-bold" : "text-muted"}`}>
+                    <Link 
+                      to="/user" 
+                      className={`nav-link d-flex align-items-center gap-3 p-2 rounded-3 ${
+                        location.pathname === "/user" ? "bg-light text-primary fw-semibold" : "text-muted"
+                      }`}
+                      style={{ transition: "all 0.2s" }}
+                    >
+                      <i className="bi bi-grid-1x2 fs-6"></i>
                       Farmer Dashboard
                     </Link>
-                    <Link to="/user/add-product" className={`nav-link py-1 ${location.pathname === "/user/add-product" ? "text-primary fw-bold" : "text-muted"}`}>
-                      <i className="bi bi-plus-circle me-2"></i> Add Product
+                    <Link
+                      to="/user/add-product"
+                      className={`nav-link d-flex align-items-center gap-3 p-2 rounded-3 ${
+                        location.pathname === "/user/add-product" ? "bg-light text-primary fw-semibold" : "text-muted"
+                      }`}
+                      style={{ transition: "all 0.2s" }}
+                    >
+                      <i className="bi bi-plus-circle fs-6"></i>
+                      Add Product
+                    </Link>
+                    <Link
+                      to="/user/viewproduct"
+                      className={`nav-link d-flex align-items-center gap-3 p-2 rounded-3 ${
+                        location.pathname === "/user/viewproduct" ? "bg-light text-primary fw-semibold" : "text-muted"
+                      }`}
+                      style={{ transition: "all 0.2s" }}
+                    >
+                      <i className="bi bi-eye fs-6"></i>
+                      View Products
                     </Link>
                   </>
-                )}
-                {userRole === "Wholesaler" && (
-                  <Link to="/wholesaler-dashboard" className={`nav-link py-1 ${location.pathname === "/wholesaler-dashboard" ? "text-primary fw-bold" : "text-muted"}`}>
-                    Wholesaler Dashboard
-                  </Link>
-                )}
-                {userRole === "Retailer" && (
-                  <Link to="/retailer-dashboard" className={`nav-link py-1 ${location.pathname === "/retailer-dashboard" ? "text-primary fw-bold" : "text-muted"}`}>
-                    Retailer Dashboard
-                  </Link>
-                )}
-                {userRole === "Transporter" && (
-                  <Link to="/transporter-dashboard" className={`nav-link py-1 ${location.pathname === "/transporter-dashboard" ? "text-primary fw-bold" : "text-muted"}`}>
-                    Transporter Dashboard
-                  </Link>
-                )}
-                {userRole === "Buyers" && (
-                  <Link to="/buyer-dashboard" className={`nav-link py-1 ${location.pathname === "/buyer-dashboard" ? "text-primary fw-bold" : "text-muted"}`}>
-                    Buyer Dashboard
-                  </Link>
                 )}
               </div>
             )}
           </div>
         </nav>
       </div>
-    </aside>
+    </div>
   );
 };

@@ -1,18 +1,21 @@
-import React from 'react'
+import axios from 'axios';
+// import React from 'react'
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from 'react-router-dom';
 
 export const UpdateProduct = () => {
 
-    const id = useParams().id
+const id = useParams().id
 
 const [categories, setCategories] = useState([]);
 const [subcategories, setSubcategories] = useState([]);
+const { register, handleSubmit, setValue } = useForm();
 
     useEffect(() => {
         getCategories();
-    }, []);
+        getProductDetails();
+    }, []); 
 
     const getCategories = async () => {
         try {
@@ -32,7 +35,33 @@ const [subcategories, setSubcategories] = useState([]);
         }
     };
 
-    const { register, handleSubmit } = useForm();
+    const getProductDetails = async () => {
+        try {
+            const res = await axios.get(`/product/getProductById/${id}`);
+            const product = res.data.data;
+            // Set form values dynamically
+            Object.keys(product).forEach((key) => setValue(key, product[key]));
+            if (product.categoryId) {
+                getSubcategoryByCategoryId(product.categoryId);
+            }
+        } catch (error) {
+            console.error("Error fetching product details:", error);
+        }
+    };
+
+    const submitHandler = async(data) => {
+        const userId = localStorage.getItem('id');
+        if (!userId) {
+            console.error("User ID not found in localStorage");
+            return;
+        }
+        data.userId = userId;   
+                delete data._id
+        console.log(data);
+        const res = await axios.put(`/product/updateproduct/${id}`, data);
+        console.log(res.data.data);
+        
+    }
 
     return (
         <div className="container-fluid d-flex justify-content-center align-items-center vh-100 bg-light overflow-x-hidden">

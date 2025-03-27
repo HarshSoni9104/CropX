@@ -33,7 +33,7 @@ export const AddProduct = () => {
     const { register, handleSubmit } = useForm();
 
     const submitHandler = async (data) => {
-        data.farmerId = localStorage.getItem("Id");
+        data.farmerId = localStorage.getItem("id");
 
         if (!data.farmerId) {
             toast.error("You must be logged in as a farmer to add a product!");

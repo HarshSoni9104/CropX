@@ -1,30 +1,38 @@
-// UserNavbar.jsx
 import React from "react";
-import hamburgermenu from "../../assets/images/hamburgermenu.png";
 import { useNavigate } from "react-router-dom";
 
+export const UserNavbar = ({ toggleSidebar }) => {
+  const navigate = useNavigate();
+  const userRole = localStorage.getItem("role");
 
-export const UserNavbar = ({toggleSidebar}) => {
-  const navigate = useNavigate()
   const handleLogout = () => {
-    localStorage.removeItem("role")
-    localStorage.removeItem("id")
-    navigate("/login")
-  }
-  return (
-    <nav className="navbar navbar-light bg-white shadow-sm py-3">
-      <div className="container-fluid justify-content-between">
-      <button  onClick={toggleSidebar}>
-        <img src={hamburgermenu} alt="Menu" style={{ height: "25px", width: "25px" }} />
-      </button>
+    localStorage.removeItem("role");
+    localStorage.removeItem("id");
+    navigate("/login");
+  };
 
-        <div className="d-flex align-items-center">
-          <button 
-            className="btn btn-danger rounded-pill px-4"
-            onClick={handleLogout}
+  return (
+    <nav className="navbar navbar-light bg-white shadow-sm py-3 sticky-top">
+      <div className="container-fluid">
+        <div className="d-flex align-items-center gap-3">
+          <button
+            onClick={toggleSidebar}
+            className="btn btn-light rounded-circle p-2"
+            style={{ transition: "transform 0.2s" }}
           >
-            <i className="bi bi-box-arrow-right me-2"></i>
-            Logout
+            <i className="bi bi-list fs-5"></i>
+          </button>
+          <h5 className="mb-0 text-capitalize">{userRole} Dashboard</h5>
+        </div>
+
+        <div className="d-flex align-items-center gap-3">
+          <button
+            onClick={handleLogout}
+            className="btn btn-danger d-flex align-items-center gap-2 px-3 py-2 rounded-pill"
+            style={{ transition: "transform 0.2s" }}
+          >
+            <i className="bi bi-box-arrow-right"></i>
+            <span className="d-none d-md-inline">Logout</span>
           </button>
         </div>
       </div>

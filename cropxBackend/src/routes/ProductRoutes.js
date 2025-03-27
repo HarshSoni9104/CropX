@@ -5,4 +5,6 @@ routes.get('/product/:id',productController.getProductById)
 routes.get('/products',productController.getAllProduct)
 routes.delete('/delete/:id',productController.deleteProduct)
 routes.post('/addwithfile', productController.addProductWithFile)
+routes.put('/updateproduct/:id' , productController.updateProduct)
+routes.get('/getallproductsbyuserid/:userId' , productController.getAllProductsByUserId)
 module.exports = routes 

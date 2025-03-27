@@ -113,6 +113,7 @@ const getProductById = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
 const addProductWithFile = async (req, res) => {
     upload(req, res, async (err) => {
       if (err) {
@@ -160,8 +161,53 @@ const addProductWithFile = async (req, res) => {
     });
   };
   
-  
-  
+const updateProduct = async(req, res) => {
+    try{
+        const updatedProduct = await productModel.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            {new: true}
+        )
+        res.status(200).json({
+            message:"Product updated succcessfully",
+            data:updatedProduct 
+        })
+    }catch(err){
+        res.status(500).json({
+            message:"error while updating product",
+            err: err
+        })
+    }
+}
+
+const getAllProductsByUserId = async (req, res) => {
+    try {
+        const { userId } = req.params; // Extract userId from URL parameter
+        console.log("Fetching products for userId:", userId);
+
+        if (!userId) {
+            return res.status(400).json({ message: "User ID is required" });
+        }
+
+        const products = await productModel
+            .find({ farmerId: userId }) // Ensure `farmerId` is used instead of `userId`
+            .populate("categoryId subcategoryId farmerId");
+
+        if (products.length === 0) {
+            return res.status(404).json({ message: "No Products Found" });
+        }
+
+        res.status(200).json({
+            message: "Products found successfully",
+            data: products
+        });
+
+    } catch (err) {
+        console.error("Error fetching products by user ID:", err);
+        res.status(500).json({ message: err.message });
+    }
+};
+
   
 
 module.exports = {
@@ -169,5 +215,7 @@ module.exports = {
     addProduct,
     deleteProduct,
     getProductById,
-    addProductWithFile
+    addProductWithFile,
+    updateProduct,
+    getAllProductsByUserId
 };
