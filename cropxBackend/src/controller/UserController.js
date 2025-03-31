@@ -40,7 +40,6 @@
         }
     };
 
-
     const signUp = async (req, res) => {
         try {
             const salt = await bcrypt.genSalt(10);
@@ -48,7 +47,7 @@
 
             req.body.password = hashedPassword;
             const createdUser = await userModel.create(req.body);
-            await mailUtil.sendingMail(createdUser.email,"welcome to eadvertisement","this is welcome mail")
+            await mailUtil.sendingMail(createdUser.email,"welcome to CropX","this is welcome mail")
 
 
             res.status(201).json({
@@ -96,8 +95,7 @@
             data: getAllUserData
         })
     }
-
-
+         
     module.exports = {
                     addUser,
                     deleteUser,

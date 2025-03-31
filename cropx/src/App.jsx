@@ -25,6 +25,7 @@ import { FarmerDashBoard } from './components/dashboards/FarmerDashboard'
 import { DashboardLayout } from './components/layouts/DashboardLayout'
 import { UpdateProduct } from './components/products/UpdateProduct'
 import { ViewProduct } from './components/products/ViewProduct'
+import { AvailableProducts } from './components/products/AvailableProduct'
 
 function App() {
 
@@ -64,6 +65,11 @@ function App() {
         <Route path="viewproduct" element={<ViewProduct/>}/>
         <Route path='updateproduct/:id' element={<UpdateProduct/>}></Route>
       </Route>
+      
+      <Route path="/buyer" element={<ProtectedRoute component={DashboardLayout} role="Buyer" />}>
+        <Route index element={<BuyerDashboard />} />
+        <Route path="available-products" element={<AvailableProducts/>}/>
+      </Route>
 
       <Route path="/admin-dashboard" element={<ProtectedRoute component={DashboardLayout} role="Admin" />}>
         <Route index element={<AdminDashboard />} />
@@ -81,9 +87,6 @@ function App() {
         <Route index element={<TransporterDashboard />} />
       </Route>
 
-      <Route path="/buyer-dashboard" element={<ProtectedRoute component={DashboardLayout} role="Buyers" />}>
-        <Route index element={<BuyerDashboard />} />
-      </Route>
 
       {/* 404 Page */}
       <Route path="*" element={<h1>404 - Page Not Found</h1>} />

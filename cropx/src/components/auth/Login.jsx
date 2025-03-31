@@ -48,8 +48,8 @@ export const Login = () => {
                     case "Transporter":
                         navigate("/transporter-dashboard");
                         break;
-                    case "Buyers":
-                        navigate("/buyer-dashboard");
+                    case "Buyer":
+                        navigate("/buyer");
                         break;
                     default:
                         navigate("/");

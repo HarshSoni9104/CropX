@@ -3,6 +3,8 @@ const userModel = require("../models/UserModels");
 const multer = require("multer");
 const path = require("path");
 const cloudinaryUtil = require("../utils/CloudinaryUtils");
+const mongoose = require("mongoose");
+
 //storage engine
 
 const storage = multer.diskStorage({
@@ -95,24 +97,33 @@ const deleteProduct = async (req, res) => {
     }
 };
 
+
 const getProductById = async (req, res) => {
     try {
         console.log("Fetching product with ID:", req.params.id);
-        const getproduct = await productModel.findById(req.params.id).populate("farmerId categoryId subcategoryId");
 
-        if (!getproduct) {
-            return res.status(404).json({ message: "Product not found" });
+        // ✅ Check if ID is valid
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({ message: "Invalid Product ID format" });
+        }
+
+        const product = await productModel.findById(req.params.id).populate("farmerId categoryId subcategoryId");
+
+        if (!product) {
+            return res.status(404).json({ message: "Product not found in database" });
         }
 
         res.status(200).json({
             message: "Product fetched successfully",
-            data: getproduct
+            data: product
         });
+
     } catch (err) {
         console.error("Error fetching product:", err);
         res.status(500).json({ message: err.message });
     }
 };
+
 
 const addProductWithFile = async (req, res) => {
     upload(req, res, async (err) => {

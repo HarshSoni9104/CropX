@@ -22,8 +22,8 @@ const productSchema = new Schema({
     },
     quantity_available:{
         type:Number,
-        required: true
-    },  
+        required: true             
+    },      
     farmerId: {
         type: Schema.Types.ObjectId,
         ref: "users",

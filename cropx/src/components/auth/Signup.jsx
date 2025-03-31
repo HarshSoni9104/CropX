@@ -14,7 +14,6 @@ export const Signup = () => {
             try {
                 const res = await axios.get("/roles")
                 console.log("Roles API Response:", res.data); // Debugging
-
                 setRoles(res.data.data)
             } catch (error) {
                 toast.error("Failed to fetch roles")
@@ -131,7 +130,7 @@ export const Signup = () => {
                             <label className="form-label">Select Role</label>
                             <select className="form-control" {...register('roleId', { required: "Role is required" })}>
                                 <option value="">-- Select Role --</option>
-                                {roles.map(role => (
+                                {roles.map(role => (        
                                     <option key={role._id} value={role._id}>{role.name}</option>
                                 ))}
                             </select>
